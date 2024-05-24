@@ -22,6 +22,7 @@ import { _TiltDisableAxis } from './TiltDisableAxis/_TiltDisableAxis';
 import { _TiltImg } from './TiltImg/_TiltImg';
 import { _TiltManualInput } from './TiltManualInput/_TiltManualInput';
 import { _TiltScale } from './TiltScale/_TiltScale';
+import { _TrackOnElement } from './TrackOnElement/_TrackOnElement';
 import { _TrackOnWindow } from './TrackOnWindow/_TrackOnWindow';
 
 import './ReactParallaxTilt.css';
@@ -118,6 +119,11 @@ export const GlareEffect360: StoryObj = {
 export const TrackOnWindow: StoryObj = {
   render: () => <_TrackOnWindow />,
   name: 'Track on window',
+};
+
+export const TrackOnElement: StoryObj = {
+  render: () => <_TrackOnElement />,
+  name: 'Track on element',
 };
 
 export const TiltManualInput: StoryObj = {

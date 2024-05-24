@@ -55,6 +55,10 @@ export type ReactParallaxTiltProps = TiltProps &
      */
     trackOnWindow?: boolean;
     /**
+     * Track mouse and touch events on the given component.
+     */
+    trackOnElement?: HTMLElement | null;
+    /**
      * Boolean to enable/disable device orientation detection.
      */
     gyroscope?: boolean;

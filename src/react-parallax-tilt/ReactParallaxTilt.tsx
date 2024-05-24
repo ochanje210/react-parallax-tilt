@@ -58,7 +58,7 @@ export class ReactParallaxTilt extends PureComponent<ReactParallaxTiltProps> {
   }
 
   private addEventListeners() {
-    const { trackOnWindow, gyroscope } = this.props;
+    const { trackOnWindow, trackOnElement, gyroscope } = this.props;
 
     window.addEventListener('resize', this.setSize);
 
@@ -69,6 +69,15 @@ export class ReactParallaxTilt extends PureComponent<ReactParallaxTiltProps> {
       window.addEventListener('touchstart', this.onEnter);
       window.addEventListener('touchmove', this.onMove);
       window.addEventListener('touchend', this.onLeave);
+    }
+
+    if (trackOnElement?.addEventListener) {
+      trackOnElement.addEventListener('mouseenter', this.onEnter);
+      trackOnElement.addEventListener('mousemove', this.onMove);
+      trackOnElement.addEventListener('mouseout', this.onLeave);
+      trackOnElement.addEventListener('touchstart', this.onEnter);
+      trackOnElement.addEventListener('touchmove', this.onMove);
+      trackOnElement.addEventListener('touchend', this.onLeave);
     }
 
     /* istanbul ignore next */
@@ -99,7 +108,7 @@ export class ReactParallaxTilt extends PureComponent<ReactParallaxTiltProps> {
   };
 
   private removeEventListeners() {
-    const { trackOnWindow, gyroscope } = this.props;
+    const { trackOnWindow, trackOnElement, gyroscope } = this.props;
 
     window.removeEventListener('resize', this.setSize);
 
@@ -110,6 +119,15 @@ export class ReactParallaxTilt extends PureComponent<ReactParallaxTiltProps> {
       window.removeEventListener('touchstart', this.onEnter);
       window.removeEventListener('touchmove', this.onMove);
       window.removeEventListener('touchend', this.onLeave);
+    }
+
+    if (trackOnElement?.removeEventListener) {
+      trackOnElement.removeEventListener('mouseenter', this.onEnter);
+      trackOnElement.removeEventListener('mousemove', this.onMove);
+      trackOnElement.removeEventListener('mouseout', this.onLeave);
+      trackOnElement.removeEventListener('touchstart', this.onEnter);
+      trackOnElement.removeEventListener('touchmove', this.onMove);
+      trackOnElement.removeEventListener('touchend', this.onLeave);
     }
 
     // jest - instance of DeviceOrientationEvent not possible
@@ -289,7 +307,7 @@ export class ReactParallaxTilt extends PureComponent<ReactParallaxTiltProps> {
   };
 
   private updateClientInput = (): void => {
-    const { trackOnWindow } = this.props;
+    const { trackOnWindow, trackOnElement } = this.props;
 
     let xTemp;
     let yTemp;
@@ -298,6 +316,12 @@ export class ReactParallaxTilt extends PureComponent<ReactParallaxTiltProps> {
 
       xTemp = (y! / window.innerHeight) * 200 - 100;
       yTemp = (x! / window.innerWidth) * 200 - 100;
+    } else if (trackOnElement) {
+      const { x, y } = this.wrapperEl.clientPosition;
+      const { top, left, height, width } = trackOnElement.getBoundingClientRect();
+
+      xTemp = ((y! - top) / height) * 200 - 100;
+      yTemp = ((x! - left) / width) * 200 - 100;
     } else {
       const {
         size: { width, height, left, top },
